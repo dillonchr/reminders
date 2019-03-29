@@ -1,5 +1,5 @@
 {
-  "name": "reminders",
+  "name": "@dillonchr/reminders",
   "version": "1.0.0",
   "description": "reminder thing that does remindery stuff",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "remember",
     "me"
   ],
-  "author": "@dillonchr",
+  "author": "dillonchr <j.dillon.christensen@gmail.com>",
   "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/dillonchr/reminders/issues"
