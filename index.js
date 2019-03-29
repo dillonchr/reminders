@@ -27,7 +27,7 @@ const add = ({command, userId, commandCallback, onRemind}) => {
             return commandCallback({error: 'Failed to save reminder! Sorry man.', originalError: err});
         }
         superSetTimeout(() => {
-            onRemind(userId, date.message);
+            onRemind({userId, message: date.message});
         }, date);
         commandCallback(null, `Will remind you ${moment(date).fromNow()}`);
     });
@@ -39,7 +39,7 @@ const connect = (onRemind) => {
             .forEach(userId => {
                 reminders[userId]
                     .forEach(({date, message}) => {
-                        superSetTimeout(() => onRemind(userId, message), new Date(date));
+                        superSetTimeout(() => onRemind({userId, message}), new Date(date));
                     });
             });
     });
