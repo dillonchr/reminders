@@ -25,4 +25,7 @@ r.add({
     },
     onRemind: localOnRemind
 });
+
+//  in 30 days
+//  >> Hey, arbitrary_user_id, it's time to enhance readme
 ```
