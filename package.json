@@ -1,0 +1,29 @@
+{
+  "name": "reminders",
+  "version": "1.0.0",
+  "description": "reminder thing that does remindery stuff",
+  "main": "main.js",
+  "scripts": {
+    "test": "tape tests/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dillonchr/reminders.git"
+  },
+  "keywords": [
+    "remember",
+    "me"
+  ],
+  "author": "@dillonchr",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/dillonchr/reminders/issues"
+  },
+  "homepage": "https://github.com/dillonchr/reminders#readme",
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "tape": "^4.10.1"
+  }
+}
