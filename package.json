@@ -2,7 +2,7 @@
   "name": "reminders",
   "version": "1.0.0",
   "description": "reminder thing that does remindery stuff",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "tape tests/**/*.js"
   },

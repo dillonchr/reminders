@@ -11,8 +11,13 @@ const superSetTimeout = (fn, date) => {
     }
 };
 
-const add = (command, userId, commandCallback, onRemind) => {
-    const date = extractDate(command.substr(7));
+const add = ({command, userId, commandCallback, onRemind}) => {
+    if (!command || !userId || !commandCallback || !onRemind) {
+        return commandCallback ?
+            commandCallback(`Missing one of required fields: command, userId, onRemind`) :
+            console.error('Missing commandCallback');
+    }
+    const date = extractDate(command);
     if (!date) {
         return commandCallback({error: 'Couldn\'t find the date in the reminder.'});
     }
@@ -20,9 +25,6 @@ const add = (command, userId, commandCallback, onRemind) => {
     addReminder(userId, date.message, date, (err) => {
         if (err) {
             return commandCallback({error: 'Failed to save reminder! Sorry man.', originalError: err});
-        }
-        if (!onRemind) {
-            return commandCallback({error: 'No `onRemind` callback defined!'});
         }
         superSetTimeout(() => {
             onRemind(userId, date.message);
