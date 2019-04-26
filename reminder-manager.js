@@ -24,6 +24,12 @@ const extractRelativeDate = ( input ) => {
         }
         return hasDays;
     }
+    //  no day, but has it a time?
+    const hasTime = extract(/^(.*)\s?@?a?t?\s?(\d:?\d{0,2})$/, input);
+    if (hasTime && hasTime.length === 2) {
+        hasTime.splice(1, 0, new Date().getDay());
+        return hasTime;
+    }
 };
 
 const extractDelay = ( input ) => {
@@ -107,7 +113,7 @@ const toAbsoluteDate = ( dayPieces ) => {
     today.setMinutes(0);
     today.setSeconds(0);
     today.setMilliseconds(0);
-    const dayCount = dayShardToId(dayPieces[0]);
+    const dayCount = isNaN (dayPieces[0]) ? dayShardToId(dayPieces[0]) : dayPieces[0];
     const thisDay = today.getDay();
     const dayShift = (dayCount <= thisDay ? 7 - thisDay - dayCount : dayCount - thisDay) * unitToMillis('day');
     const timeShift = timeStringToMilliseconds(dayPieces[1]);
@@ -166,15 +172,24 @@ const dayShardToId = ( day ) => {
 };
 
 const extractDate = ( input ) => {
-    let absoluteDate = extractLongDate(input);
+    const absoluteDate = extractLongDate(input);
     if (absoluteDate) {
         return toRealDate(absoluteDate);
     }
-    let relativeDate = extractRelativeDate(input);
+    const relativeDate = extractRelativeDate(input);
     if (relativeDate) {
-        return toAbsoluteDate(relativeDate);
+        const now = new Date();
+        const res = toAbsoluteDate(relativeDate);
+        //  for catching the at 5's thing
+        if (now.getTime() > res.getTime()) {
+            const moment = require('moment');
+            console.log('need to bump', moment(res).format('LLL'));
+            res.setDate(res.getDate() + 1);
+            console.log('after bump', moment(res).format('LLL'));
+        }
+        return res;
     }
-    let delay = extractDelay(input);
+    const delay = extractDelay(input);
     if (delay) {
         return toTimeout(delay);
     }
